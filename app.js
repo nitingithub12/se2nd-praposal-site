@@ -1,47 +1,28 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbxw9TewmvRqq8wEBQBCu9uOMJ1DR0FLJr8t3azHHJ-S/dev";
+const scriptURL = "https://script.google.com/macros/s/AKfycbzVLYI6SsjJO_-9b_MGKFk0CBHamW6s5R3dcYz-C0jlMaiiE5nZuAMUmtE0nuvINgQYxw/exec";
 
+// Select Elements
 const parentElement = document.getElementById("parentElement");
 const showMessage = document.getElementById("showMessage");
 const changeColor = document.body.style;
 
-propose = () => {
-  // Send response to Google Sheets & trigger email
-  fetch(scriptURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: "Your Crush", response: "Yes" }),
-  })
+// Function for "Yes" Button (Proposal Accepted)
+function propose() {
+    parentElement.style.display = "none";
+    showMessage.style.display = "block";
+    changeColor.background = "linear-gradient(116.82deg, #ff94e7 0%, #27cbff 100%)";
+
+    // Send Data to Google Apps Script
+    fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify({ name: "Crush ❤️", response: "Yes" }),
+        headers: { "Content-Type": "application/json" },
+    })
     .then(response => response.text())
-    .then(data => console.log("Response Saved & Email Sent:", data))
+    .then(data => console.log("Success:", data))
     .catch(error => console.error("Error:", error));
+}
 
-  // Hide proposal section and show confirmation
-  parentElement.style.display = "none";
-  showMessage.style.display = "block";
-  changeColor.background =
-    "linear-gradient(116.82deg, #ff94e7 0%, #27cbff 100%)";
-};
-
-// Animate Text with Anim JS
-var textWrapper = document.querySelector(".ml6 .letters");
-textWrapper.innerHTML = textWrapper.textContent.replace(
-  /\S/g,
-  "<span class='letter'>$&</span>"
-);
-
-anime
-  .timeline({ loop: true })
-  .add({
-    targets: ".ml6 .letter",
-    translateY: ["1.1em", 0],
-    translateZ: 0,
-    duration: 750,
-    delay: (el, i) => 50 * i,
-  })
-  .add({
-    targets: ".ml6",
-    opacity: 0,
-    duration: 1000,
-    easing: "easeOutExpo",
-    delay: 1000,
-  });
+// Function for "No" Button (Proposal Rejected)
+function propose1() {
+    alert("Are you sure? 😢");
+}
